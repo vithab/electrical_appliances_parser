@@ -3,15 +3,17 @@ require 'nokogiri'
 
 BASE_URL = 'https://www.inortek.ru'
 
-html = URI.open(BASE_URL)
-document = Nokogiri::HTML(html)
+def get_html(url)
+  html = open(url) { |result| result.read }
+  Nokogiri::HTML(html)
+end
 
+document = get_html(BASE_URL)
 brand_urls = document.css('ul.list-group li.list-group-item a').map { |item| BASE_URL + item['href'] }
 
 p brand_urls
 
-html = URI.open(brand_urls.first)
-document = Nokogiri::HTML(html)
+document = get_html(brand_urls.first)
 
 appliances_urls = document.css('nav > ul > li > a').map { |item| BASE_URL + item['href'] }
 
