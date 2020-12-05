@@ -1,7 +1,11 @@
 require 'open-uri'
 require 'nokogiri'
 
-html = URI.open('https://www.inortek.ru')
+BASE_URL = 'https://www.inortek.ru'
+
+html = URI.open(BASE_URL)
 document = Nokogiri::HTML(html)
 
-puts document
+brands = document.css('ul.list-group li.list-group-item a').map { |item| BASE_URL + item['href'] }
+
+p brands
