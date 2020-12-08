@@ -19,13 +19,18 @@ brand_urls = document.css('ul.list-group li.list-group-item a').map { |item| BAS
 
 p brand_urls
 
-document = get_html(brand_urls.first)
-
-appliances_urls = document.css('nav > ul > li > a').map { |item| BASE_URL + item['href'] }
+appliances_urls = 
+  brand_urls.map do |url|
+    document = get_html(url)
+    document.css('nav > ul > li > a').map { |item| BASE_URL + item['href'] }
+  end
 
 puts "\n\n"
 p appliances_urls
+p appliances_urls.count
 
-appliances_urls.map { |url| write_to_txt(url) }
+appliances_urls.map do |brand|
+  brand.map { |url| write_to_txt(url) }
+end
 
 puts "\n\nDone.\n\n"
