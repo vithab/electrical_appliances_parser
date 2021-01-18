@@ -18,6 +18,8 @@ module Appliance
               div.col-sm-8.col-md-7 > article > nav > ul.pagination').any?
   end
 
+  # Метод вычисления количества страниц пагинаций, 
+  # параметр page - объект Nokogiri
   def self.get_pagination_number(page)
     page.css('nav > ul.pagination > li')[-2].text.to_i
   end
