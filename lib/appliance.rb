@@ -17,4 +17,8 @@ module Appliance
     page.css('body > div.container-fluid > div:nth-child(2) > 
               div.col-sm-8.col-md-7 > article > nav > ul.pagination').any?
   end
+
+  def self.get_pagination_number(page)
+    page.css('nav > ul.pagination > li')[-2].text.to_i
+  end
 end
