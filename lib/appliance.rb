@@ -5,11 +5,20 @@ module Appliance
     Nokogiri::HTML(html)
   end
 
-  # Метод для записи ссылок категорий оборудования в .txt
-  def self.write_to_txt(url)
-    file_name = url.split('/')[-2]
+  # Метод для записи ссылок на категории оборудования и карточек оборудования в .txt
+  def self.write_to_txt(url, folder)
+    folder = folder
 
-    File.write("./category_urls/#{file_name}.txt", "#{url}\n", mode: 'a')
+    if folder == 'category_urls'
+      file_name = url.split('/')[-2]
+      File.write("./#{folder}/#{file_name}.txt", "#{url}\n", mode: 'a')
+    elsif folder == 'appliance_urls'
+      file_name = url.split('/')[3..4].join('_')
+      File.write("./#{folder}/#{file_name}.txt", "#{url}\n", mode: 'a')
+    else
+      puts 'Директория для записи не найдена. ' +
+           'Доступны: category_urls, appliance_urls'
+    end
   end
 
   # Метод проверки наличия страниц пагинаций, параметр page - объект Nokogiri
