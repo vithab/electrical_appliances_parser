@@ -6,6 +6,7 @@ require 'byebug'
 
 require_relative 'lib/appliance'
 
+folders = %w[category_urls appliance_urls]
 category_urls = Dir['./category_urls/*.txt'].sort.map do |file|
   File.open("#{file}", 'r'){ |file| file.readlines }
 end
@@ -35,23 +36,29 @@ category_urls[0..1].map do |brand|
       
       page_number.times do |number|
         url = category_url + page_prefix + number.to_s
-        page = Appliance.get_html(category_url)
+        page = Appliance.get_html(url)
         card_links_per_page = page.css('tbody div.row > div.col-xs-6 a')
           .map { |card_link| category_url + card_link['href'] }
         
         total_card_links << card_links_per_page
       end
-    else
-      page = Appliance.get_html(category_url)
+        total_card_links.map do |pages|
+          pages.map { |url| Appliance.write_to_txt(url, folders[1])}
+        end
+    elsif
+      page = Appliance.get_html(url)
       card_links_per_page = page.css('tbody div.row div.col-xs-6 a')
         .map { |card_link| category_url + card_link['href'] }
 
       total_card_links << card_links_per_page
+      total_card_links.map { |url| Appliance.write_to_txt(url, folders[1])}
     end
+
+
 
     puts "Текущая категория:\n#{category_url}\n\n"
     puts "Страниц пагинации в категории: #{total_card_links.size}"
-    puts "Количество товара в категории: #{total_card_links.flatten.size}"
+    puts "Количество товаров в категории: #{total_card_links.flatten.size}"
     puts "="*80
   end
 end
