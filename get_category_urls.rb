@@ -6,6 +6,7 @@ require 'nokogiri'
 require_relative 'lib/appliance'
 
 BASE_URL = 'https://www.inortek.ru'
+folders = %w[category_urls appliance_urls]
 
 document = Appliance.get_html(BASE_URL)
 
@@ -26,9 +27,9 @@ category_urls =
 # Записываем в отдельный файл ссылки на категории каждого бренда
 category_urls.map do |url|
   url.map do |url|
-    Appliance.write_to_txt(url)
+    Appliance.write_to_txt(url, folders[0])
     p url
   end
 end
 
-puts "\n\nDone.\n\n"
+puts "\n\nНайдено категорий брендов: #{category_urls.flatten.size}\n\n"
