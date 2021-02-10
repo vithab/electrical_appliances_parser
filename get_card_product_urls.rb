@@ -1,4 +1,4 @@
-# Скрипт для получения списка урл карточек товаров, с заптсью в .txt
+# Скрипт для получения списка урл карточек товаров, с записью в .txt
 
 require 'open-uri'
 require 'nokogiri'
@@ -42,19 +42,16 @@ category_urls[0..1].map do |brand|
         
         total_card_links << card_links_per_page
       end
-        total_card_links.map do |pages|
-          pages.map { |url| Appliance.write_to_txt(url, folders[1])}
-        end
-    elsif
-      page = Appliance.get_html(url)
-      card_links_per_page = page.css('tbody div.row div.col-xs-6 a')
+
+      total_card_links.map do |pages|
+        pages.map { |url| Appliance.write_to_txt(url, folders[1])}
+      end
+    else
+      card_links_per_page = document.css('tbody div.row div.col-xs-6 a')
         .map { |card_link| category_url + card_link['href'] }
-
       total_card_links << card_links_per_page
-      total_card_links.map { |url| Appliance.write_to_txt(url, folders[1])}
+      total_card_links.flatten.map { |url| Appliance.write_to_txt(url, folders[1])}
     end
-
-
 
     puts "Текущая категория:\n#{category_url}\n\n"
     puts "Страниц пагинации в категории: #{total_card_links.size}"
