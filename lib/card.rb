@@ -20,17 +20,10 @@ class Card
     brand = html_block.css('div:nth-child(2) > div.col-sm-8.col-md-7 > article > div > div > div > div:nth-child(1) > a').text.chomp.strip  
     model = html_block.css('h1').text.strip
     
-    unless html_block.css('h2 > span').nil?
-      price = html_block.css('h2 > span').text
-    else
-      price = ''
-    end
+    price = html_block.css('h2 > span').nil? ? '' : html_block.css('h2 > span').text
 
-    unless html_block.css('div:nth-child(2) > div.col-sm-8.col-md-7 > article > table > tbody > tr:nth-child(1) > td:nth-child(2)').nil?
-      description = html_block.css('div:nth-child(2) > div.col-sm-8.col-md-7 > article > table > tbody > tr:nth-child(1) > td:nth-child(2)').text.chomp.strip
-    else
-      description = ''
-    end
+    description = html_block.css('div:nth-child(2) > div.col-sm-8.col-md-7 > article > table > tbody > tr:nth-child(1) > td:nth-child(2)').nil? ? \
+      '' : html_block.css('div:nth-child(2) > div.col-sm-8.col-md-7 > article > table > tbody > tr:nth-child(1) > td:nth-child(2)').text
 
     breadcrumbs = []
     html_block.css('ol.breadcrumb li').map {|crumb| breadcrumbs << crumb.text.chomp.strip}
