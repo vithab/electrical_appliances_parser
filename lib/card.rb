@@ -15,9 +15,9 @@ class Card
     
     html_block = html.css('.container-fluid')
 
-    vendor_code = html_block.css('div:nth-child(1) > span:nth-child(5) > small').text.chomp.strip
+    vendor_code = html_block.css('div:nth-child(1) > span:nth-child(5) > small').text.strip
 
-    brand = html_block.css('div:nth-child(2) > div.col-sm-8.col-md-7 > article > div > div > div > div:nth-child(1) > a').text.chomp.strip  
+    brand = html_block.css('div:nth-child(2) > div.col-sm-8.col-md-7 > article > div > div > div > div:nth-child(1) > a').text.strip  
     model = html_block.css('h1').text.strip
     
     price = html_block.css('h2 > span').nil? ? '' : html_block.css('h2 > span').text
@@ -25,13 +25,12 @@ class Card
     description = html_block.css('div:nth-child(2) > div.col-sm-8.col-md-7 > article > table > tbody > tr:nth-child(1) > td:nth-child(2)').nil? ? \
       '' : html_block.css('div:nth-child(2) > div.col-sm-8.col-md-7 > article > table > tbody > tr:nth-child(1) > td:nth-child(2)').text
 
-    breadcrumbs = []
-    html_block.css('ol.breadcrumb li').map {|crumb| breadcrumbs << crumb.text.chomp.strip}
+    breadcrumbs = html_block.css('ol.breadcrumb li').map { |crumb| crumb.text.strip }
     breadcrumbs.pop
     
-    breadcrumbs = breadcrumbs.map { |crumb| crumb}.join(" -> ")
+    breadcrumbs = breadcrumbs.map { |crumb| crumb }.join(" -> ")
 
-    url = @url.chomp.strip
+    url = @url
 
     card = {
       vendor_code: vendor_code,
