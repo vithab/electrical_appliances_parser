@@ -1,5 +1,6 @@
 require_relative 'lib/card'
 
+# TODO сделать чтение урлов карточек из файлов
 card_urls = [
         'https://www.inortek.ru/sensor/emkostnye_beskontaktnye_vyklyuchateli/vbe-m30-73k-1111-sa.html',
         'https://www.inortek.ru/autonics/zapchasti_dlya_svetosignalnoj_apparatury/AP_B.html',
