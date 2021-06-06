@@ -1,19 +1,21 @@
 require_relative 'lib/card'
 
-# TODO сделать чтение урлов карточек из файлов
-card_urls = [
-        'https://www.inortek.ru/sensor/emkostnye_beskontaktnye_vyklyuchateli/vbe-m30-73k-1111-sa.html',
-        'https://www.inortek.ru/autonics/zapchasti_dlya_svetosignalnoj_apparatury/AP_B.html',
-        'https://www.inortek.ru/autonics/absolyutnyj_enkoder/EP50S8_1024_1F_N_24.html'
-       ]
+card_urls = Dir['./appliance_urls/*.txt'].sort.map do |file|
+  File.open("#{file}", 'r'){ |file| file.readlines }
+end
+
+# Для валидности url, убираем перенос строки '\n' после чтения из файлов
+card_urls.map! { |card_url| card_url.map(&:strip) }
 
 array_cards = []
 
-card_urls.map do |url|
-  card = Card.new(url)
-  array_cards << card.get_attributes_card
-  p card.get_attributes_card
-  puts '=' * 80
+card_urls[0..1].map do |brand|
+  brand.map do |card_url|
+    card = Card.new(card_url)
+    array_cards << card.get_attributes_card
+    p card.get_attributes_card
+    puts '=' * 80
+  end
 end
 
 p array_cards
